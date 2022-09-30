@@ -1,0 +1,2 @@
+# notes
+React/Django app
