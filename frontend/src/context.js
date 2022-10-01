@@ -10,6 +10,7 @@ const AppProvider = ({ children }) => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showNew, setShowNew] = useState(false);
 
   const fetchNotes = async (url) => {
     setLoading(true);
@@ -37,6 +38,28 @@ const AppProvider = ({ children }) => {
     setShowModal(false);
   };
 
+  const tryCatchFetch = async (axiosCall) => {
+    try {
+      const response = await axiosCall();
+      return response.data ? response.data : { message: "success" };
+    } catch (error) {
+      console.log(error.response);
+      return null;
+    }
+  };
+
+  const createNote = async (noteData) => {
+    return await tryCatchFetch(() => axios.post(allNotesUrl, noteData));
+  };
+
+  const openNew = () => {
+    setShowNew(true);
+  };
+
+  const cancelNew = () => {
+    setShowNew(false);
+  };
+
   useEffect(() => {
     fetchNotes(allNotesUrl);
   }, []);
@@ -50,6 +73,10 @@ const AppProvider = ({ children }) => {
         closeModal,
         selectNote,
         selectedNote,
+        createNote,
+        showNew,
+        openNew,
+        cancelNew,
       }}
     >
       {children}

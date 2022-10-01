@@ -13,7 +13,7 @@ const Notes = () => {
   return (
     <section className="section-center">
       {notes.map((singleNote) => {
-        const { id, title, content, created, updated } = singleNote;
+        const { id, title } = singleNote;
 
         return (
           <article key={id} className="single-note">
